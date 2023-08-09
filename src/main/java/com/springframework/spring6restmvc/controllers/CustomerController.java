@@ -33,6 +33,7 @@ public class CustomerController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+
     @PostMapping
     public ResponseEntity postHandle(@RequestBody Customer customer) {
         Customer savedCustomer = customerService.saveNewCustomer(customer);
@@ -42,10 +43,13 @@ public class CustomerController {
     }
 
 
+
     @RequestMapping(method = RequestMethod.GET)
     public List<Customer> listCustomers(){
         return customerService.listCustomers();
     }
+
+
     @RequestMapping("{customerId}")
     public Customer getCustomerById(@PathVariable("customerId") UUID customerId){
         log.debug("Get Customer By Id - in Controller");

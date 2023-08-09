@@ -1,15 +1,16 @@
 package com.springframework.spring6restmvc.controllers;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.springframework.spring6restmvc.model.Beer;
 import com.springframework.spring6restmvc.model.Customer;
-import com.springframework.spring6restmvc.services.BeerService;
-import com.springframework.spring6restmvc.services.BeerServiceImpl;
 import com.springframework.spring6restmvc.services.CustomerService;
 import com.springframework.spring6restmvc.services.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
@@ -17,12 +18,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
-import static org.hamcrest.Matchers.*;
+
 import static org.mockito.BDDMockito.*;
 
 import java.util.UUID;
-import static net.bytebuddy.matcher.ElementMatchers.is;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -32,8 +32,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.web.servlet.function.RequestPredicates.accept;
+
 
 @WebMvcTest(CustomerController.class)
 class CustomerControllerTest {
@@ -46,10 +45,21 @@ class CustomerControllerTest {
     CustomerService customerService;
 
     CustomerServiceImpl customerServiceImpl;
+    private Customer sampleCustomer;
+
 
     @BeforeEach
     void setUp() {
         customerServiceImpl = new CustomerServiceImpl();
+
+        MockitoAnnotations.openMocks(this);
+
+        sampleCustomer = Customer.builder()
+                .id(UUID.randomUUID())
+                .firstName("John")
+                .lastName("Doe")
+                .phoneNumber("+123456789")
+                .build();
     }
 
 
@@ -108,20 +118,19 @@ class CustomerControllerTest {
         verify(customerService, times(1)).listCustomers();
     }
 
-    @Test
-    void getBeerById() throws Exception {
-        Customer testCustomer = customerServiceImpl.listCustomers().get(0);
-        given(customerService.getCustomerById(testCustomer.getId())).willReturn(testCustomer);
 
-        mockMvc.perform(get("/api/v1/customer/" + testCustomer.getId())
-                        .accept(MediaType.APPLICATION_JSON))
+    @Test
+    public void testGetCustomerById() throws Exception {
+        when(customerService.getCustomerById(any(UUID.class))).thenReturn(sampleCustomer);
+
+        mockMvc.perform(get("/api/v1/customer/{customerId}", sampleCustomer.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect((ResultMatcher) jsonPath("$.id", is(testCustomer.getId().toString())));
+                .andExpect(jsonPath("$.firstName").value(sampleCustomer.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(sampleCustomer.getLastName()))
+                .andExpect(jsonPath("$.phoneNumber").value(sampleCustomer.getPhoneNumber()));
 
-        // Verify that the beerService.getBeerById() method was called
-        verify(customerService, times(1)).getCustomerById(testCustomer.getId());
+        verify(customerService, times(1)).getCustomerById(any(UUID.class));
     }
-
-
 }

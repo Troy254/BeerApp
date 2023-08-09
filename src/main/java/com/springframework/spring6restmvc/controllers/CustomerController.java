@@ -2,8 +2,10 @@ package com.springframework.spring6restmvc.controllers;
 
 import com.springframework.spring6restmvc.model.Customer;
 import com.springframework.spring6restmvc.services.CustomerService;
+import com.sun.net.httpserver.Headers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,7 +27,6 @@ public class CustomerController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-
     @PutMapping("{customerId}")
     public ResponseEntity updateById(@PathVariable("customerId") UUID customerId, @RequestBody Customer customer){
         customerService.updateCustomerById(customerId,customer);
@@ -35,6 +36,8 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity postHandle(@RequestBody Customer customer) {
         Customer savedCustomer = customerService.saveNewCustomer(customer);
+        org.springframework.http.HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/api/v1/beer" + savedCustomer.getId().toString());
         return new ResponseEntity(HttpStatus.CREATED);
     }
 

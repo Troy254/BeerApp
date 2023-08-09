@@ -1,4 +1,4 @@
-package com.springframework.spring6restmvc.models;
+package com.springframework.spring6restmvc.model;
 
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +14,9 @@ public class Beer {
     private String beerName;
     private BeerStyle beerStyle;
     private String upc;
-    private Integer quantityOnHand;
     private BigDecimal price;
-    private LocalDateTime createDate;
+    private Integer quantityOnHand;
+    private LocalDateTime createdDate;
     private LocalDateTime updateDate;
+
 }

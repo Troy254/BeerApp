@@ -36,9 +36,9 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity postHandle(@RequestBody Customer customer) {
         Customer savedCustomer = customerService.saveNewCustomer(customer);
-        org.springframework.http.HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/api/v1/beer" + savedCustomer.getId().toString());
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(headers,HttpStatus.CREATED);
     }
 
 

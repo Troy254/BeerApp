@@ -1,6 +1,5 @@
 package com.springframework.spring6restmvc.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springframework.spring6restmvc.model.Beer;
 import com.springframework.spring6restmvc.services.BeerService;
@@ -16,13 +15,10 @@ import org.springframework.http.MediaType;
 
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.UUID;
-
-import static javax.management.Query.value;
 import static net.bytebuddy.matcher.ElementMatchers.is;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -67,7 +63,6 @@ class BeerControllerTest {
 
         assertThat(beer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
     }
-
 
     @Test
     void testUpdateBeer() throws Exception {

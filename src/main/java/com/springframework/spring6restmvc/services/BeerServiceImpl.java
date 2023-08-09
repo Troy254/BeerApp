@@ -13,7 +13,6 @@ import java.util.*;
 @Service
 public class BeerServiceImpl implements BeerService {
 
-
     private Map<UUID,Beer> beerMap;
 
     public BeerServiceImpl() {

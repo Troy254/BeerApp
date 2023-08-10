@@ -43,13 +43,11 @@ public class BeerController {
 
      @RequestMapping(method = RequestMethod.GET)
      public List<Beer> listBeers() {
+
         return beerService.listBeers();
     }
 
-     @ExceptionHandler
-     public ResponseEntity handleNotFoundException(){
-        return ResponseEntity.notFound().build();
-         }
+
 
 
      @RequestMapping("{beerId}")

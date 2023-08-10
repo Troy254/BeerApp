@@ -24,7 +24,7 @@ public class CustomerController {
     @DeleteMapping("{customerId}")
     public ResponseEntity deleteById(@PathVariable("customerId") UUID customerId){
         customerService.deleteCustomerById(customerId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("{customerId}")
@@ -32,7 +32,6 @@ public class CustomerController {
         customerService.updateCustomerById(customerId,customer);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 
     @PostMapping
     public ResponseEntity postHandle(@RequestBody Customer customer) {
@@ -45,14 +44,9 @@ public class CustomerController {
 
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Customer> listCustomers(){
-        return customerService.listCustomers();
+    public List<Customer> listCustomers(){return customerService.listCustomers();
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity handleNotFoundException(){
-        return  ResponseEntity.notFound().build();
-    }
 
     @RequestMapping("{customerId}")
     public Customer getCustomerById(@PathVariable("customerId") UUID customerId){

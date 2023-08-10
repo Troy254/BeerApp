@@ -14,11 +14,11 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-  @AllArgsConstructor
-  @RequestMapping("/api/v1/beer")
+   @AllArgsConstructor
+   @RequestMapping("/api/v1/beer")
 public class BeerController {
-
-
+//     public static final String BEER_PATH = "/api/v1/beer";
+//     public static final String BEER_PATH_ID = BEER_PATH + "{beerId}";
     private BeerService beerService;
 
     @DeleteMapping("{beerId}")
@@ -28,16 +28,16 @@ public class BeerController {
     }
 
     @PutMapping("{beerId}")
-      public ResponseEntity updateById(@PathVariable("beerId") UUID beerId,@RequestBody Beer beer){
-          beerService.updateBeerById(beerId,beer);
-          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+       public ResponseEntity updateById(@PathVariable("beerId") UUID beerId,@RequestBody Beer beer){
+           beerService.updateBeerById(beerId,beer);
+           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping
     public ResponseEntity postHandle(@RequestBody Beer beer){
         Beer savedBeer = beerService.saveNewBeer(beer);
         HttpHeaders headers = new HttpHeaders();
-          headers.add("Location", "/api/v1/beer" + savedBeer.getId().toString());
+           headers.add("Location", "/api/v1/beer" + savedBeer.getId().toString());
         return new ResponseEntity(headers,HttpStatus.CREATED);
     }
 
@@ -46,10 +46,13 @@ public class BeerController {
         return beerService.listBeers();
     }
 
-
+   @ExceptionHandler(NotFoundException.class)
+   public ResponseEntity handleNotFoundException(){
+        return ResponseEntity.notFound().build();
+    }
     @RequestMapping("{beerId}")
      public Beer getBeerById(@PathVariable("beerId") UUID beerId){
-          log.debug("Get Beer By Id - in Controller");
+           log.debug("Get Beer By Id - in Controller");
         return beerService.getBeerById(beerId);
     }
 }

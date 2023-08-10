@@ -58,7 +58,7 @@ class BeerControllerTest {
                          .accept(MediaType.APPLICATION_JSON))
                  .andExpect(status().isNoContent());
 
-         ArgumentCaptor<UUID> uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class);
+          ArgumentCaptor<UUID> uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class);
          verify(beerService).deleteBeerById(uuidArgumentCaptor.capture());
 
          assertThat(beer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
@@ -106,7 +106,13 @@ class BeerControllerTest {
          verify(beerService, times(1)).listBeers();
      }
 
-
+   @Test
+   void getBeerByIdNotFound() throws Exception{
+         given(beerService.getBeerById(any(UUID.class))).willThrow(NotFoundException.class);
+         Beer testBeer = beerServiceImpl.listBeers().get(0);
+         mockMvc.perform(get("/api/v1/beer/" + testBeer.getId()))
+                 .andExpect(status().isNotFound());
+   }
    @Test
    void getBeerById() throws Exception {
      Beer testBeer = beerServiceImpl.listBeers().get(0);

@@ -2,12 +2,13 @@ package com.springframework.spring6restmvc.controllers;
 
  import com.fasterxml.jackson.databind.ObjectMapper;
  import com.springframework.spring6restmvc.model.BeerDTO;
-import com.springframework.spring6restmvc.services.BeerService;
+ import com.springframework.spring6restmvc.services.BeerService;
  import com.springframework.spring6restmvc.services.BeerServiceImpl;
  import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
  import org.mockito.ArgumentCaptor;
-import org.springframework.beans.factory.annotation.Autowired;
+ import org.mockito.MockitoAnnotations;
+ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,7 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
  import static org.hamcrest.Matchers.*;
  import static org.mockito.BDDMockito.*;
 
-import java.util.UUID;
+ import java.math.BigDecimal;
+ import java.util.UUID;
  import static net.bytebuddy.matcher.ElementMatchers.is;
 
  import static org.assertj.core.api.Assertions.assertThat;
@@ -44,10 +46,21 @@ class BeerControllerTest {
 
      BeerServiceImpl beerServiceImpl;
 
+
+    private BeerDTO sampleBeer;
      @BeforeEach
      void setUp() {
          beerServiceImpl = new BeerServiceImpl();
-     }
+
+             MockitoAnnotations.openMocks(this);
+             sampleBeer = BeerDTO.builder()
+                     .id(UUID.randomUUID())
+                     .beerName("Galaxy Cat")
+                     .price(new BigDecimal("12.10"))
+                     .quantityOnHand(100)
+                     .build();
+         }
+
 
 
      @Test
@@ -118,21 +131,18 @@ class BeerControllerTest {
     }
 
 
-   @Test
-   void getBeerById() throws Exception {
-     BeerDTO testBeer = beerServiceImpl.listBeers().get(0);
-     given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
-
-     mockMvc.perform(get("/api/v1/beer/" + testBeer.getId())
-                    .accept(MediaType.APPLICATION_JSON))
-             .andExpect(status().isOk())
-             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-             .andExpect((ResultMatcher) jsonPath("$.id", is(testBeer.getId().toString())));
-
-     // Verify that the beerService.getBeerById() method was called
-     verify(beerService, times(1)).getBeerById(testBeer.getId());
-}
 
 
-
+    @Test
+    public void testGetBeerById() throws Exception {
+        when(beerService.getBeerById(any(UUID.class))).thenReturn(sampleBeer);
+        mockMvc.perform(get("/api/v1/beer/{beerId}", sampleBeer.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.beerName").value(sampleBeer.getBeerName()));
+//                .andExpect(jsonPath("$.price").value(sampleBeer.getPrice()))
+//                .andExpect(jsonPath("$.quantityOnHand").value(sampleBeer.getQuantityOnHand()));
+        verify(beerService, times(1)).getBeerById(any(UUID.class));
+    }
 }

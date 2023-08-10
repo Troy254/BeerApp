@@ -2,15 +2,13 @@ package com.springframework.spring6restmvc.entities;
 
 import com.springframework.spring6restmvc.model.BeerStyle;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
+@Builder
 @Getter
 @Setter
 @Entity
@@ -25,7 +23,7 @@ public class Beer {
     private String beerName;
     @Version
     private Integer version;
-    private BeerStyle beerStyle;
+   // private BeerStyle beerStyle;
     private String upc;
     private BigDecimal price;
     private Integer quantityOnHand;

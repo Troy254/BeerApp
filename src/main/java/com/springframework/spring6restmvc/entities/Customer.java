@@ -1,21 +1,17 @@
 package com.springframework.spring6restmvc.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
-
+@Builder
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
-    
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")

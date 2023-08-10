@@ -116,7 +116,15 @@ class CustomerControllerTest {
         verify(customerService, times(1)).listCustomers();
     }
 
+    @Test
+    public void getCustomerByIdNotFound() throws Exception {
+        given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
 
+        mockMvc.perform(get("/api/v1/customer/{customerId}", sampleCustomer.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+    }
     @Test
     public void testGetCustomerById() throws Exception {
         when(customerService.getCustomerById(any(UUID.class))).thenReturn(sampleCustomer);

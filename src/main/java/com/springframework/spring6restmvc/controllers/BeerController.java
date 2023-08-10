@@ -41,16 +41,18 @@ public class BeerController {
         return new ResponseEntity(headers,HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Beer> listBeers() {
+     @RequestMapping(method = RequestMethod.GET)
+     public List<Beer> listBeers() {
         return beerService.listBeers();
     }
 
-   @ExceptionHandler(NotFoundException.class)
-   public ResponseEntity handleNotFoundException(){
+     @ExceptionHandler
+     public ResponseEntity handleNotFoundException(){
         return ResponseEntity.notFound().build();
-    }
-    @RequestMapping("{beerId}")
+         }
+
+
+     @RequestMapping("{beerId}")
      public Beer getBeerById(@PathVariable("beerId") UUID beerId){
            log.debug("Get Beer By Id - in Controller");
         return beerService.getBeerById(beerId);

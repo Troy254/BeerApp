@@ -49,6 +49,10 @@ public class CustomerController {
         return customerService.listCustomers();
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity handleNotFoundException(){
+        return  ResponseEntity.notFound().build();
+    }
 
     @RequestMapping("{customerId}")
     public Customer getCustomerById(@PathVariable("customerId") UUID customerId){

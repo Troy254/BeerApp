@@ -47,13 +47,11 @@ class CustomerControllerTest {
     CustomerServiceImpl customerServiceImpl;
     private Customer sampleCustomer;
 
-
     @BeforeEach
     void setUp() {
         customerServiceImpl = new CustomerServiceImpl();
 
         MockitoAnnotations.openMocks(this);
-
         sampleCustomer = Customer.builder()
                 .id(UUID.randomUUID())
                 .firstName("John")
@@ -130,7 +128,6 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.firstName").value(sampleCustomer.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(sampleCustomer.getLastName()))
                 .andExpect(jsonPath("$.phoneNumber").value(sampleCustomer.getPhoneNumber()));
-
         verify(customerService, times(1)).getCustomerById(any(UUID.class));
     }
 }

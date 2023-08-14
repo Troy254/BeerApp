@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
  import static org.mockito.BDDMockito.*;
 
  import java.math.BigDecimal;
+ import java.util.Optional;
  import java.util.UUID;
  import static net.bytebuddy.matcher.ElementMatchers.is;
 
@@ -135,7 +136,7 @@ class BeerControllerTest {
 
     @Test
     public void testGetBeerById() throws Exception {
-        when(beerService.getBeerById(any(UUID.class))).thenReturn(sampleBeer);
+        when(beerService.getBeerById(any(UUID.class))).thenReturn(Optional.ofNullable(sampleBeer));
         mockMvc.perform(get("/api/v1/beer/{beerId}", sampleBeer.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

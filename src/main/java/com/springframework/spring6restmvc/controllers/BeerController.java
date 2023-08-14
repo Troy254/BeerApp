@@ -10,14 +10,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+ import java.util.Optional;
+ import java.util.UUID;
 
 @Slf4j
 @RestController
    @AllArgsConstructor
    @RequestMapping("/api/v1/beer")
 public class BeerController {
-//     public static final String BEER_PATH = "/api/v1/beer";
+  //   public static final String BEER_PATH = "/api/v1/beer";
 //     public static final String BEER_PATH_ID = BEER_PATH + "{beerId}";
     private BeerService beerService;
 
@@ -47,9 +48,8 @@ public class BeerController {
         return beerService.listBeers();
     }
 
-
      @RequestMapping("{beerId}")
-     public BeerDTO getBeerById(@PathVariable("beerId") UUID beerId){
+     public Optional<BeerDTO> getBeerById(@PathVariable("beerId") UUID beerId){
 
         log.debug("Get Beer By Id - in Controller");
 

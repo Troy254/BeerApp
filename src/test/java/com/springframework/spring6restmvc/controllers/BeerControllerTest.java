@@ -1,6 +1,7 @@
 package com.springframework.spring6restmvc.controllers;
 
  import com.fasterxml.jackson.databind.ObjectMapper;
+ import com.springframework.spring6restmvc.entities.Beer;
  import com.springframework.spring6restmvc.model.BeerDTO;
  import com.springframework.spring6restmvc.services.BeerService;
  import com.springframework.spring6restmvc.services.BeerServiceImpl;
@@ -119,8 +120,6 @@ class BeerControllerTest {
          // Verify that the beerService.listBeers() method was called
          verify(beerService, times(1)).listBeers();
      }
-
-
 
 
     @Test

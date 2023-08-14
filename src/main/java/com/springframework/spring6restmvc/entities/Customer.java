@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 @Builder
 @Getter
@@ -17,10 +18,12 @@ public class Customer {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(length = 36,columnDefinition = "varchar", updatable = false,nullable = false)
     private UUID id;
+    private String firstName;
     @Version
     private Integer version;
-    private String firstName;
     private String lastName;
     private String phoneNumber;
+    private LocalDateTime createdDate;
+    private LocalDateTime updateDate;
 
 }

@@ -50,7 +50,9 @@ public class BeerController {
 
      @RequestMapping("{beerId}")
      public BeerDTO getBeerById(@PathVariable("beerId") UUID beerId){
-           log.debug("Get Beer By Id - in Controller");
+
+        log.debug("Get Beer By Id - in Controller");
+
         return beerService.getBeerById(beerId);
     }
 }

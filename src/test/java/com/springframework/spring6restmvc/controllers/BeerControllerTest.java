@@ -1,7 +1,6 @@
 package com.springframework.spring6restmvc.controllers;
 
  import com.fasterxml.jackson.databind.ObjectMapper;
- import com.springframework.spring6restmvc.entities.Beer;
  import com.springframework.spring6restmvc.model.BeerDTO;
  import com.springframework.spring6restmvc.services.BeerService;
  import com.springframework.spring6restmvc.services.BeerServiceImpl;
@@ -23,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
  import java.math.BigDecimal;
  import java.util.Optional;
  import java.util.UUID;
- import static net.bytebuddy.matcher.ElementMatchers.is;
 
  import static org.assertj.core.api.Assertions.assertThat;
  import static org.mockito.Mockito.verify;
@@ -31,7 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
  import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
  import static org.mockito.ArgumentMatchers.any;
  import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
  import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
  import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -82,6 +80,7 @@ class BeerControllerTest {
      @Test
      void testUpdateBeer() throws Exception {
          BeerDTO beer = beerServiceImpl.listBeers().get(0);
+         given(beerService.updateBeerById(any(),any())).willReturn(Optional.of(beer));
          mockMvc.perform(put("/api/v1/beer/" + beer.getId())
                  .accept(MediaType.APPLICATION_JSON)
                  .contentType(MediaType.APPLICATION_JSON)

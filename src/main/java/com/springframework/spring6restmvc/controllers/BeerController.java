@@ -23,23 +23,26 @@ public class BeerController {
     private BeerService beerService;
 
     @DeleteMapping("{beerId}")
-    public ResponseEntity deleteById(@PathVariable("beerId") UUID beerId){
+    public ResponseEntity<Void> deleteById(@PathVariable("beerId") UUID beerId){
         beerService.deleteBeerById(beerId);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+
     @PutMapping("{beerId}")
-       public ResponseEntity updateById(@PathVariable("beerId") UUID beerId,@RequestBody BeerDTO beer){
-           beerService.updateBeerById(beerId,beer);
+       public ResponseEntity<Void> updateById(@PathVariable("beerId") UUID beerId,@RequestBody BeerDTO beer){
+          if(beerService.updateBeerById(beerId,beer).isEmpty()){
+              throw new NotFoundException();
+          };
            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping
-    public ResponseEntity postHandle(@RequestBody BeerDTO beer){
+    public ResponseEntity<Void> postHandle(@RequestBody BeerDTO beer){
         BeerDTO savedBeer = beerService.saveNewBeer(beer);
         HttpHeaders headers = new HttpHeaders();
            headers.add("Location", "/api/v1/beer" + savedBeer.getId().toString());
-        return new ResponseEntity(headers,HttpStatus.CREATED);
+        return new ResponseEntity<>(headers,HttpStatus.CREATED);
     }
 
      @RequestMapping(method = RequestMethod.GET)

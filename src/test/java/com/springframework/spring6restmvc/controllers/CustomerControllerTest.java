@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -126,7 +127,7 @@ class CustomerControllerTest {
 
     @Test
     public void testGetCustomerById() throws Exception {
-        when(customerService.getCustomerById(any(UUID.class))).thenReturn(sampleCustomer);
+        when(customerService.getCustomerById(any(UUID.class))).thenReturn(Optional.ofNullable(sampleCustomer));
 
         mockMvc.perform(get("/api/v1/customer/{customerId}", sampleCustomer.getId())
                         .contentType(MediaType.APPLICATION_JSON))

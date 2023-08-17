@@ -2,12 +2,14 @@ package com.springframework.spring6restmvc.controllers;
 
  import com.springframework.spring6restmvc.model.BeerDTO;
 import com.springframework.spring6restmvc.services.BeerService;
-import lombok.AllArgsConstructor;
+ import jakarta.validation.Valid;
+ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+ import org.springframework.validation.annotation.Validated;
+ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
  import java.util.Optional;
@@ -18,7 +20,7 @@ import java.util.List;
    @AllArgsConstructor
    @RequestMapping("/api/v1/beer")
 public class BeerController {
-  //   public static final String BEER_PATH = "/api/v1/beer";
+     public static final String BEER_PATH = "/api/v1/beer";
 //     public static final String BEER_PATH_ID = BEER_PATH + "{beerId}";
     private BeerService beerService;
 
@@ -30,7 +32,7 @@ public class BeerController {
 
 
     @PutMapping("{beerId}")
-       public ResponseEntity<Void> updateById(@PathVariable("beerId") UUID beerId,@RequestBody BeerDTO beer){
+       public ResponseEntity<Void> updateById( @PathVariable("beerId") UUID beerId, @RequestBody BeerDTO beer){
           if(beerService.updateBeerById(beerId,beer).isEmpty()){
               throw new NotFoundException();
           };
@@ -38,7 +40,7 @@ public class BeerController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> postHandle(@RequestBody BeerDTO beer){
+    public ResponseEntity<Void> postHandle(@Validated @RequestBody BeerDTO beer){
         BeerDTO savedBeer = beerService.saveNewBeer(beer);
         HttpHeaders headers = new HttpHeaders();
            headers.add("Location", "/api/v1/beer" + savedBeer.getId().toString());

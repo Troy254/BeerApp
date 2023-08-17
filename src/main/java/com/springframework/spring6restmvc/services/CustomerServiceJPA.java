@@ -27,6 +27,7 @@ public class CustomerServiceJPA implements CustomerService {
         this.customerMapper = customerMapper;
     }
 
+
     @Override
     public List<CustomerDTO> listCustomers() {
         return customerRepository.findAll()
@@ -61,6 +62,6 @@ public class CustomerServiceJPA implements CustomerService {
 
     @Override
     public void deleteCustomerById(UUID customerId) {
-
+        customerRepository.deleteById(customerId);
     }
 }

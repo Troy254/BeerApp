@@ -102,7 +102,6 @@ class CustomerControllerTest {
                 .andExpect(header().exists("Location"));
     }
 
-
     @Test
     void testListBeers() throws Exception {
         given(customerService.listCustomers()).willReturn(customerServiceImpl.listCustomers());
@@ -124,6 +123,7 @@ class CustomerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
+
 
     @Test
     public void testGetCustomerById() throws Exception {

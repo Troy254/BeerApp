@@ -73,7 +73,9 @@ public class BootstrapData implements CommandLineRunner {
         if (customerRepository.count() == 0) {
             Customer customer1 = Customer.builder()
                     .id(UUID.randomUUID())
-                    .firstName("Customer 1")
+                    .firstName("Johnny")
+                    .lastName("Blaze")
+                    .phoneNumber("134354665656")
                     .version(1)
                     .createdDate(LocalDateTime.now())
                     .updateDate(LocalDateTime.now())
@@ -81,7 +83,9 @@ public class BootstrapData implements CommandLineRunner {
 
             Customer customer2 = Customer.builder()
                     .id(UUID.randomUUID())
-                    .firstName("Customer 2")
+                    .firstName("Jackie")
+                    .lastName("Bee")
+                    .phoneNumber("36574935789578")
                     .version(1)
                     .createdDate(LocalDateTime.now())
                     .updateDate(LocalDateTime.now())
@@ -89,7 +93,9 @@ public class BootstrapData implements CommandLineRunner {
 
             Customer customer3 = Customer.builder()
                     .id(UUID.randomUUID())
-                    .firstName("Customer 3")
+                    .firstName("Sam")
+                    .lastName("lee")
+                    .phoneNumber("+264384848578")
                     .version(1)
                     .createdDate(LocalDateTime.now())
                     .updateDate(LocalDateTime.now())

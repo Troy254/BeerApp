@@ -13,13 +13,17 @@ import java.util.UUID;
 public class BeerDTO {
     private UUID id;
     private Integer version;
-    @NotNull
     @NotBlank
+    @NotNull
     private String beerName;
+    @NotNull
     private BeerStyle beerStyle;
+    @NotBlank
+    @NotNull
     private String upc;
-    private BigDecimal price;
     private Integer quantityOnHand;
+    @NotNull
+    private BigDecimal price;
     private LocalDateTime createdDate;
     private LocalDateTime updateDate;
 

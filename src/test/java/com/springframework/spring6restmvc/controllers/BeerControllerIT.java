@@ -5,12 +5,18 @@ import com.springframework.spring6restmvc.mapper.BeerMapper;
 import com.springframework.spring6restmvc.model.BeerDTO;
 import com.springframework.spring6restmvc.repositories.BeerRepository;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,6 +32,15 @@ class BeerControllerIT {
     @Autowired
     BeerMapper beerMapper;
 
+   @Autowired
+    WebApplicationContext wac;
+
+   MockMvc mockMvc;
+
+   @BeforeEach
+   void setUp() {
+       mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+   }
     @Rollback
     @Transactional
     @Test

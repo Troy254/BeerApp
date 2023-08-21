@@ -17,8 +17,8 @@ import java.util.List;
 
 @Slf4j
 @RestController
-   @AllArgsConstructor
-   @RequestMapping("/api/v1/beer")
+@AllArgsConstructor
+@RequestMapping("/api/v1/beer")
 public class BeerController {
      public static final String BEER_PATH = "/api/v1/beer";
 //     public static final String BEER_PATH_ID = BEER_PATH + "{beerId}";
@@ -39,6 +39,7 @@ public class BeerController {
            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+
     @PostMapping
     public ResponseEntity<Void> postHandle(@Validated @RequestBody BeerDTO beer){
         BeerDTO savedBeer = beerService.saveNewBeer(beer);
@@ -48,9 +49,7 @@ public class BeerController {
     }
 
      @RequestMapping(method = RequestMethod.GET)
-     public List<BeerDTO> listBeers() {
-
-        return beerService.listBeers();
+     public List<BeerDTO> listBeers() { return beerService.listBeers();
     }
 
      @RequestMapping("{beerId}")

@@ -1,5 +1,5 @@
-create table beer (
-id varchar(36) not null,
+ create table beer (
+ id varchar(36) not null,
      beer_name varchar(50) not null,
      beer_style smallint not null,
      created_date datetime(6),
@@ -11,7 +11,7 @@ id varchar(36) not null,
   primary key (id)) engine=InnoDB;
 
 
-create table customer (
+ create table customer (
    id varchar(36) not null,
    created_date datetime(6),
    first_name varchar(255),

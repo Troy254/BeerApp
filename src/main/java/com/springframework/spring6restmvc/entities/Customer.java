@@ -24,6 +24,10 @@ public class Customer {
     private String firstName;
     @Version
     private Integer version;
+
+    @Column(length = 255)
+    private String email;
+
     private String lastName;
     private String phoneNumber;
     private LocalDateTime createdDate;

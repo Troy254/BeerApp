@@ -103,8 +103,7 @@ public class BeerServiceImpl implements BeerService {
 
         return Optional.of(existing);
     }
-
-
+    
     @Override
     public void deleteBeerById(UUID beerId) {
 

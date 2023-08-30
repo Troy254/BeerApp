@@ -8,7 +8,10 @@ import com.springframework.spring6restmvc.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -23,10 +26,21 @@ public class BootstrapData implements CommandLineRunner {
     private final BeerRepository beerRepository;
     private final CustomerRepository customerRepository;
 
+
+
     @Override
     public void run(String... args) throws Exception {
         loadBeerData();
+        loadCsvData();
         loadCustomerData();
+    }
+
+    private void loadCsvData() throws FileNotFoundException {
+     if(beerRepository.count() < 10){
+         File file = ResourceUtils.getFile("classpath:csvdata/beers.csv");
+
+     }
+
     }
 
     private void loadBeerData() {

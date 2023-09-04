@@ -13,7 +13,7 @@ public class BeerCSVRecord {
   private Integer row;
 
   @CsvBindByName(column = "count.x")
-  private Integer count_x;
+  private Integer count;
 
   @CsvBindByName
   private String abv;

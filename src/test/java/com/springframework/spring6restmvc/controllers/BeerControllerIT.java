@@ -78,11 +78,11 @@ class BeerControllerIT {
         assertThat(updatedBeer.getBeerName()).isEqualTo(beerName);
     }
 
-
     @Rollback
     @Transactional
     @Test
     void saveNewBeerTest() {
+
         BeerDTO beerDTO = BeerDTO.builder()
                 .beerName("New Beer")
                 .build();
@@ -119,7 +119,7 @@ class BeerControllerIT {
     @Test
     void testListBeers() {
         List<BeerDTO> dtos = beerController.listBeers();
-        assertThat(dtos.size()).isEqualTo(3);
+        assertThat(dtos.size()).isEqualTo(2413);
     }
 
     @Rollback

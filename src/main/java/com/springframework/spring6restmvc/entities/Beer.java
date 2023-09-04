@@ -7,8 +7,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
@@ -30,11 +32,13 @@ public class Beer {
 
     @Version
     private Integer version;
+
     @NotBlank
     @NotNull
     @Size(max = 50)
     @Column(length = 50)
     private String beerName;
+
     @NotNull
     private BeerStyle beerStyle;
     @NotBlank
@@ -42,9 +46,13 @@ public class Beer {
     @Size(max = 255)
     private String upc;
     private Integer quantityOnHand;
+
     @NotNull
     private BigDecimal price;
 
+    @CreationTimestamp
     private LocalDateTime createdDate;
+
+    @UpdateTimestamp
     private LocalDateTime updateDate;
 }

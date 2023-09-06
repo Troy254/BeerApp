@@ -1,38 +1,51 @@
 package com.springframework.spring6restmvc.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springframework.spring6restmvc.entities.Beer;
 import com.springframework.spring6restmvc.mapper.BeerMapper;
 import com.springframework.spring6restmvc.model.BeerDTO;
 import com.springframework.spring6restmvc.repositories.BeerRepository;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @SpringBootTest
 class BeerControllerIT {
+
     @Autowired
     BeerController beerController;
+
     @Autowired
     BeerRepository beerRepository;
+
     @Autowired
     BeerMapper beerMapper;
 
-   @Autowired
+    @Autowired
+    ObjectMapper objectMapper;
+
+
+    @Autowired
     WebApplicationContext wac;
 
    MockMvc mockMvc;
@@ -53,6 +66,14 @@ class BeerControllerIT {
         assertThat(beerRepository.findById(beer.getId()).isEmpty());
     }
 
+
+    @Test
+    void tesListBeersByName() throws Exception {
+        mockMvc.perform(get(BeerController.BEER_PATH)
+                        .queryParam("beerName", "IPA"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", is(336)));
+    }
 
     @Test
    void testUpdateNotFound(){
@@ -82,7 +103,6 @@ class BeerControllerIT {
     @Transactional
     @Test
     void saveNewBeerTest() {
-
         BeerDTO beerDTO = BeerDTO.builder()
                 .beerName("New Beer")
                 .build();
@@ -98,6 +118,10 @@ class BeerControllerIT {
         Beer beer = beerRepository.findById(savedUUID).get();
         assertThat(beer).isNotNull();
     }
+
+
+
+
 
 
     @Test
@@ -118,16 +142,17 @@ class BeerControllerIT {
 
     @Test
     void testListBeers() {
-        List<BeerDTO> dtos = beerController.listBeers();
+        List<BeerDTO> dtos = beerController.listBeers(null);
         assertThat(dtos.size()).isEqualTo(2413);
     }
+
 
     @Rollback
     @Transactional
     @Test
     void testEmptyList(){
         beerRepository.deleteAll();
-        List<BeerDTO> dtos = beerController.listBeers();
+        List<BeerDTO> dtos = beerController.listBeers(null);
         assertThat(dtos.size()).isEqualTo(0);
     }
 }

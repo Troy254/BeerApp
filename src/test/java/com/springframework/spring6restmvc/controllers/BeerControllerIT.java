@@ -120,10 +120,6 @@ class BeerControllerIT {
     }
 
 
-
-
-
-
     @Test
     void testBeerIdNotFound() {
         try {

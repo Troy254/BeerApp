@@ -73,8 +73,6 @@ public class BeerServiceImpl implements BeerService {
     }
 
 
-
-
     @Override
     public BeerDTO saveNewBeer(BeerDTO beer) {
         BeerDTO savedBeer = BeerDTO.builder()

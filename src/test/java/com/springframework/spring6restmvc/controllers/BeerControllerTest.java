@@ -122,12 +122,12 @@ class BeerControllerTest {
          beer.setId(null);
          given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null).get(1));
           mockMvc.perform(post("/api/v1/beer")
-                          .with(httpBasic(USERNAME, PASSWORD))
+                         .with(httpBasic(USERNAME, PASSWORD))
                          .accept(MediaType.APPLICATION_JSON)
                          .contentType(MediaType.APPLICATION_JSON)
                          .content(objectMapper.writeValueAsString(beer)))
                  .andExpect(status().isCreated())
-                  .andExpect(header().exists("Location"));
+                 .andExpect(header().exists("Location"));
      }
 
 

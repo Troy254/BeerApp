@@ -81,6 +81,7 @@ class BeerControllerIT {
                 .andExpect(jsonPath("$.size()", is(336)));
     }
 
+
     @Test
    void testUpdateNotFound(){
          assertThrows(NotFoundException.class,() -> {
@@ -128,7 +129,6 @@ class BeerControllerIT {
     }
 
 
-
     @Test
     void testBeerIdNotFound() {
         try {
@@ -150,6 +150,7 @@ class BeerControllerIT {
         List<BeerDTO> dtos = beerController.listBeers(null);
         assertThat(dtos.size()).isEqualTo(2413);
     }
+
 
 
     @Rollback

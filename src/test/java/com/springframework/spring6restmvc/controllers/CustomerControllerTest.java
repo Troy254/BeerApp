@@ -91,9 +91,8 @@ class CustomerControllerTest {
 
         //verify(customerService).updateCustomerById(uuidArgumentCaptor.capture(), any(CustomerDTO.class));
 
-       // assertThat(customer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
+       //assertThat(customer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
     }
-
 
 
     @Test

@@ -1,9 +1,11 @@
 package com.springframework.spring6restmvc.controllers;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springframework.spring6restmvc.config.SpringSecConfig;
 import com.springframework.spring6restmvc.model.CustomerDTO;
 import com.springframework.spring6restmvc.services.CustomerService;
 import com.springframework.spring6restmvc.services.CustomerServiceImpl;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,6 +39,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 
 @WebMvcTest(CustomerController.class)
+@Import(SpringSecConfig.class)
 class CustomerControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -47,6 +51,9 @@ class CustomerControllerTest {
 
     CustomerServiceImpl customerServiceImpl;
     private CustomerDTO sampleCustomer;
+
+    public static final String USERNAME = "user1";
+    public static final String PASSWORD = "password";
 
     @BeforeEach
     void setUp() {
@@ -67,6 +74,7 @@ class CustomerControllerTest {
         CustomerDTO customer = customerServiceImpl.listCustomers().get(0);
 
         mockMvc.perform(delete("/api/v1/customer/" + customer.getId())
+                        .with(httpBasic(USERNAME,PASSWORD))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
@@ -82,6 +90,7 @@ class CustomerControllerTest {
         given(customerService.updateCustomerById(any(), any())).willReturn(Optional.of(CustomerDTO.builder()
                 .build()));
         mockMvc.perform(put("/api/v1/customer/" + customer.getId())
+                        .with(httpBasic(USERNAME,PASSWORD))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customer)))
@@ -101,6 +110,7 @@ class CustomerControllerTest {
         customer.setId(null);
         given(customerService.saveNewCustomer(any(CustomerDTO.class))).willReturn(customerServiceImpl.listCustomers().get(1));
         mockMvc.perform(post("/api/v1/customer")
+                        .with(httpBasic(USERNAME,PASSWORD))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customer)))
@@ -113,6 +123,7 @@ class CustomerControllerTest {
         given(customerService.listCustomers()).willReturn(customerServiceImpl.listCustomers());
 
         mockMvc.perform(get("/api/v1/customer")
+                        .with(httpBasic(USERNAME, PASSWORD))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -126,6 +137,7 @@ class CustomerControllerTest {
     public void getCustomerByIdNotFound() throws Exception {
         given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
         mockMvc.perform(get("/api/v1/customer/{customerId}", sampleCustomer.getId())
+                        .with(httpBasic(USERNAME, PASSWORD))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -136,6 +148,7 @@ class CustomerControllerTest {
         when(customerService.getCustomerById(any(UUID.class))).thenReturn(Optional.ofNullable(sampleCustomer));
 
         mockMvc.perform(get("/api/v1/customer/{customerId}", sampleCustomer.getId())
+                        .with(httpBasic(USERNAME, PASSWORD))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

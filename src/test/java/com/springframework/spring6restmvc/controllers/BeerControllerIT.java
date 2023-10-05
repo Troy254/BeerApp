@@ -122,7 +122,7 @@ class BeerControllerIT {
         assertThat(responseEntity.getHeaders().getLocation()).isNotNull();
 
         String[] locationUUID = responseEntity.getHeaders().getLocation().getPath().split("/");
-        UUID savedUUID = UUID.fromString(locationUUID[4]);
+        UUID savedUUID = UUID.fromString(locationUUID[5]);
 
         Beer beer = beerRepository.findById(savedUUID).get();
         assertThat(beer).isNotNull();

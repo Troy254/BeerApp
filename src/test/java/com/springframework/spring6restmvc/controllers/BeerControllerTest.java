@@ -75,7 +75,7 @@ class BeerControllerTest {
          BeerDTO beerDTO = BeerDTO.builder().build();
          given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null).get(0));
          MvcResult mvcResult = mockMvc.perform(post(BeerController.BEER_PATH)
-                 .accept(MediaType.APPLICATION_JSON)
+                // .accept(MediaType.APPLICATION_JSON)
                  .contentType(MediaType.APPLICATION_JSON)
                  .content(objectMapper.writeValueAsString(beerDTO)))
                  .andExpect(status().isBadRequest())
@@ -128,6 +128,7 @@ class BeerControllerTest {
                          .content(objectMapper.writeValueAsString(beer)))
                  .andExpect(status().isCreated())
                  .andExpect(header().exists("Location"));
+
      }
 
 
@@ -155,8 +156,6 @@ class BeerControllerTest {
                  .with(httpBasic(USERNAME, PASSWORD)))
                  .andExpect(status().isNotFound());
     }
-
-
 
 
     @Test

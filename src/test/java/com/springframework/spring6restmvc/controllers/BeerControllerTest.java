@@ -18,7 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import org.springframework.test.web.servlet.MockMvc;
  import org.springframework.test.web.servlet.MvcResult;
- import org.springframework.test.web.servlet.request.RequestPostProcessor;
+
 
  import static org.hamcrest.Matchers.*;
  import static org.mockito.BDDMockito.*;
@@ -29,7 +29,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
  import static org.assertj.core.api.Assertions.assertThat;
  import static org.mockito.Mockito.verify;
- import static org.springframework.security.config.web.server.ServerHttpSecurity.http;
  import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
  import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
  import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;

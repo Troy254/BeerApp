@@ -138,8 +138,8 @@ class BeerControllerIT {
     void testBeerIdNotFound() {
         try {
             beerController.getBeerById(UUID.randomUUID());
-        } catch (NotFoundException ex) {
-            throw ex;
+        } catch (NotFoundException x) {
+            throw x;
         }
     }
 

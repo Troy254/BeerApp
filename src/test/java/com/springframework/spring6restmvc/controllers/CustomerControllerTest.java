@@ -1,4 +1,5 @@
 package com.springframework.spring6restmvc.controllers;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -10,6 +11,7 @@ import com.springframework.spring6restmvc.services.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -45,6 +47,12 @@ class CustomerControllerTest {
     @MockBean
     CustomerService customerService;
 
+    @Captor
+    ArgumentCaptor<UUID> uuidArgumentCaptor;
+
+    @Captor
+    ArgumentCaptor<CustomerDTO> customerArgumentCaptor;
+
     CustomerServiceImpl customerServiceImpl;
     private CustomerDTO sampleCustomer;
 
@@ -76,16 +84,23 @@ class CustomerControllerTest {
         assertThat(customer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
     }
 
+
     @Test
-    void testUpdateBeer() throws Exception {
+    void testUpdateCustomer() throws Exception {
         CustomerDTO customer = customerServiceImpl.listCustomers().get(0);
+
+        given(customerService.updateCustomerById(any(), any())).willReturn(Optional.of(CustomerDTO.builder()
+                .build()));
+
         mockMvc.perform(put("/api/v1/customer/" + customer.getId())
-                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customer))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(customer)))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(customerService).updateCustomerById(any(UUID.class),any(CustomerDTO.class));
+        verify(customerService).updateCustomerById(uuidArgumentCaptor.capture(), any(CustomerDTO.class));
+
+        assertThat(customer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
     }
 
 

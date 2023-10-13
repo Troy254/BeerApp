@@ -25,6 +25,10 @@ public class Customer {
     @Version
     private Integer version;
     private String lastName;
+
+    @Column(length = 255)
+    private String email;
+
     private String phoneNumber;
     private LocalDateTime createdDate;
     private LocalDateTime updateDate;

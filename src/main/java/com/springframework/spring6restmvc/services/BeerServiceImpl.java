@@ -71,10 +71,6 @@ public class BeerServiceImpl implements BeerService {
          log.debug("Get Beer By id in Service " + beerId.toString());
          return Optional.ofNullable(beerMap.get(beerId));
     }
-
-
-
-
     @Override
     public BeerDTO saveNewBeer(BeerDTO beer) {
         BeerDTO savedBeer = BeerDTO.builder()

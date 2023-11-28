@@ -23,7 +23,7 @@ public class BeerServiceImpl implements BeerService {
                 .version(1)
                  .beerName("Galaxy Cat")
                 .beerStyle(BeerStyle.PALE_ALE)
-                 .upc("784873478494959")
+                 .upc("7848734784566576769")
                 .price(new BigDecimal("10.99"))
                  .quantityOnHand(100)
                  .createdDate(LocalDateTime.now())

@@ -71,7 +71,7 @@ class CustomerControllerTest {
 
 
     @Test
-    void testDeleteBeer() throws Exception {
+    void testDeleteCustomer() throws Exception {
         CustomerDTO customer = customerServiceImpl.listCustomers().get(0);
 
         mockMvc.perform(delete("/api/v1/customer/" + customer.getId())
@@ -105,7 +105,7 @@ class CustomerControllerTest {
 
 
     @Test
-    void testCreateNewBeer() throws Exception {
+    void testCreateNewCustomer() throws Exception {
         CustomerDTO customer = customerServiceImpl.listCustomers().get(0);
         customer.setId(null);
         given(customerService.saveNewCustomer(any(CustomerDTO.class))).willReturn(customerServiceImpl.listCustomers().get(1));
@@ -118,7 +118,7 @@ class CustomerControllerTest {
     }
 
     @Test
-    void testListBeers() throws Exception {
+    void testListCustomers() throws Exception {
         given(customerService.listCustomers()).willReturn(customerServiceImpl.listCustomers());
 
         mockMvc.perform(get("/api/v1/customer")

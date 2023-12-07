@@ -4,6 +4,7 @@ import com.springframework.spring6restmvc.entities.Beer;
 import com.springframework.spring6restmvc.mapper.BeerMapper;
 import com.springframework.spring6restmvc.model.BeerDTO;
 import com.springframework.spring6restmvc.repositories.BeerRepository;
+import com.springframework.spring6restmvc.services.BeerService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,9 @@ class BeerControllerIT {
     BeerController beerController;
     @Autowired
     BeerRepository beerRepository;
+
+    @Autowired
+    BeerService beerService;
     @Autowired
     BeerMapper beerMapper;
 
@@ -78,7 +82,6 @@ class BeerControllerIT {
         assertThat(updatedBeer.getBeerName()).isEqualTo(beerName);
     }
 
-
     @Rollback
     @Transactional
     @Test
@@ -86,7 +89,6 @@ class BeerControllerIT {
         BeerDTO beerDTO = BeerDTO.builder()
                 .beerName("New Beer")
                 .build();
-
         ResponseEntity responseEntity = beerController.postHandle(beerDTO);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(201));

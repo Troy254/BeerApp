@@ -21,37 +21,36 @@ public class BeerServiceImpl implements BeerService {
         BeerDTO beer1 = BeerDTO.builder()
                 .id(UUID.randomUUID())
                 .version(1)
-                 .beerName("Galaxy Cat")
+                .beerName("Galaxy Cat")
                 .beerStyle(BeerStyle.PALE_ALE)
-                 .upc("7848734784566576769")
+                .upc("7848734784566576769")
                 .price(new BigDecimal("10.99"))
-                 .quantityOnHand(100)
-                 .createdDate(LocalDateTime.now())
+                .quantityOnHand(100)
+                .createdDate(LocalDateTime.now())
                 .updateDate(LocalDateTime.now())
                 .build();
-
 
         BeerDTO beer2 = BeerDTO.builder()
-                .id(UUID.randomUUID())
-                .version(1)
+                 .id(UUID.randomUUID())
+                 .version(1)
                  .beerName("Tusker")
-                .beerStyle(BeerStyle.PALE_ALE)
+                 .beerStyle(BeerStyle.PALE_ALE)
                  .upc("032843480474")
-                .price(new BigDecimal("9.99"))
+                 .price(new BigDecimal("9.99"))
                  .quantityOnHand(318)
                  .createdDate(LocalDateTime.now())
-                .updateDate(LocalDateTime.now())
-                .build();
+                 .updateDate(LocalDateTime.now())
+                 .build();
 
         BeerDTO beer3 = BeerDTO.builder()
                 .id(UUID.randomUUID())
                 .version(1)
-                 .beerName("Pilsner")
+                .beerName("Pilsner")
                 .beerStyle(BeerStyle.PALE_ALE)
-                 .upc("35676894322200")
-                 .price(new BigDecimal("15.99"))
-                 .quantityOnHand(240)
-                 .createdDate(LocalDateTime.now())
+                .upc("35676894322200")
+                .price(new BigDecimal("15.99"))
+                .quantityOnHand(240)
+                .createdDate(LocalDateTime.now())
                 .updateDate(LocalDateTime.now())
                 .build();
 
@@ -82,7 +81,7 @@ public class BeerServiceImpl implements BeerService {
                 .beerStyle(beer.getBeerStyle())
                 .quantityOnHand(beer.getQuantityOnHand())
                 .price(beer.getPrice())
-                 .upc(beer.getUpc())
+                .upc(beer.getUpc())
                 .build();
         beerMap.put(savedBeer.getId(),savedBeer);
         return savedBeer;
@@ -99,7 +98,6 @@ public class BeerServiceImpl implements BeerService {
 
         return Optional.of(existing);
     }
-
 
     @Override
     public void deleteBeerById(UUID beerId) {

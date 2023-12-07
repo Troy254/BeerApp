@@ -17,46 +17,44 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class BeerServiceJPA implements BeerService {
-    private final BeerRepository beerRepository;
-    private final BeerMapper beerMapper;
 
-    @Override
-    public List<BeerDTO> listBeers() {
-        return beerRepository.findAll()
-                .stream()
-                .map(beerMapper::beerToBeerDto)
-                .collect(Collectors.toList());
-    }
+  private final BeerRepository beerRepository;
+  private final BeerMapper beerMapper;
 
+  @Override
+  public List<BeerDTO> listBeers() {
+    return beerRepository.findAll().stream().map(beerMapper::beerToBeerDto)
+        .collect(Collectors.toList());
+  }
 
-    @Override
-    public Optional<BeerDTO> getBeerById(UUID id) {
-        return Optional.ofNullable(beerMapper.beerToBeerDto(beerRepository.findById(id).orElse(null)));
-    }
+  @Override
+  public Optional<BeerDTO> getBeerById(UUID id) {
+    return Optional.ofNullable(beerMapper.beerToBeerDto(beerRepository.findById(id).orElse(null)));
+  }
 
+  @Override
+  public BeerDTO saveNewBeer(BeerDTO beer) {
+    return beerMapper.beerToBeerDto(beerRepository.save(beerMapper.beerDtoBeer(beer)));
+  }
 
-    @Override
-    public BeerDTO saveNewBeer(BeerDTO beer) {
-        return beerMapper.beerToBeerDto(beerRepository.save(beerMapper.beerDtoBeer(beer)));
-    }
+  @Override
+  public Optional<BeerDTO> updateBeerById(UUID beerId, BeerDTO beer) {
+    AtomicReference<Optional<BeerDTO>> atomicReference = new AtomicReference<>();
+    beerRepository.findById(beerId).ifPresentOrElse(foundBeer -> {
+      foundBeer.setBeerName(beer.getBeerName());
+      foundBeer.setBeerStyle(beer.getBeerStyle());
+      foundBeer.setUpc(beer.getUpc());
+      foundBeer.setPrice(beer.getPrice());
+      atomicReference.set(Optional.of(beerMapper.beerToBeerDto(beerRepository.save(foundBeer))));
 
-    @Override
-    public Optional<BeerDTO> updateBeerById(UUID beerId, BeerDTO beer) {
-        AtomicReference<Optional<BeerDTO>> atomicReference = new AtomicReference<>();
-        beerRepository.findById(beerId).ifPresentOrElse(foundBeer -> {
-            foundBeer.setBeerName(beer.getBeerName());
-            foundBeer.setBeerStyle(beer.getBeerStyle());
-            foundBeer.setUpc(beer.getUpc());
-            foundBeer.setPrice(beer.getPrice());
-            atomicReference.set(Optional.of(beerMapper.beerToBeerDto(beerRepository.save(foundBeer))));
+    }, () -> {
+      atomicReference.set(Optional.empty());
+    });
+    return atomicReference.get();
+  }
 
-        }, () -> { atomicReference.set(Optional.empty());
-        });
-        return atomicReference.get();
-    }
+  @Override
+  public void deleteBeerById(UUID beerId) {
 
-    @Override
-    public void deleteBeerById(UUID beerId) {
-
-    }
+  }
 }

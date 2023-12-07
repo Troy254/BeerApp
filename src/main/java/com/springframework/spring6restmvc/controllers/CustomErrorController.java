@@ -12,14 +12,14 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class CustomErrorController {
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    ResponseEntity handleBindErrors(MethodArgumentNotValidException exception){
-        List errorList = exception.getFieldErrors().stream()
-                .map(fieldError -> {
-                    Map<String,String> errorMap = new HashMap<>();
-                    errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
-                    return errorMap;
-                }).collect(Collectors.toList());
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  ResponseEntity handleBindErrors(MethodArgumentNotValidException exception) {
+    List errorList = exception.getFieldErrors().stream().map(fieldError -> {
+      Map<String, String> errorMap = new HashMap<>();
+      errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
+      return errorMap;
+    }).collect(Collectors.toList());
     return ResponseEntity.badRequest().body(errorList);
-     }
+  }
 }

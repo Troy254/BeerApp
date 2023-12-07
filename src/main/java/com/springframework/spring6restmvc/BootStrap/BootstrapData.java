@@ -115,7 +115,7 @@ public class BootstrapData implements CommandLineRunner {
                     .id(UUID.randomUUID())
                     .firstName("Johnny")
                     .lastName("Blaze")
-                    .phoneNumber("+13435466565")
+                    .phoneNumber("+13435466565445")
                     .version(1)
                     .createdDate(LocalDateTime.now())
                     .updateDate(LocalDateTime.now())
@@ -123,8 +123,8 @@ public class BootstrapData implements CommandLineRunner {
 
             Customer customer2 = Customer.builder()
                     .id(UUID.randomUUID())
-                    .firstName("Jackie")
-                    .lastName("Bee")
+                    .firstName("Barney")
+                    .lastName("Stinson")
                     .phoneNumber("+36574935789578")
                     .version(1)
                     .createdDate(LocalDateTime.now())
@@ -133,8 +133,8 @@ public class BootstrapData implements CommandLineRunner {
 
             Customer customer3 = Customer.builder()
                     .id(UUID.randomUUID())
-                    .firstName("Sam")
-                    .lastName("lee")
+                    .firstName("Ted")
+                    .lastName("Sherbersky")
                     .phoneNumber("+264384848578")
                     .version(1)
                     .createdDate(LocalDateTime.now())
@@ -145,7 +145,6 @@ public class BootstrapData implements CommandLineRunner {
         }
 
     }
-
 
 }
 
